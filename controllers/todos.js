@@ -113,9 +113,9 @@ const forgotPassword = async (req, res) => {
     // lien unique
     // ici on crée une adresse unique en passant des parametres.
     // ces paramètres nous permettent de retrouver le user et set up un nouveau password
-    // const link = `http://localhost:8100/reset-password/${oldUser._id}/${token}`;
-   //  console.log(link, 'link');
-     const link = `https://guarded-fortress-84785.herokuapp.com/reset-password/?id=${oldUser._id}&token=${token}`;
+    const link = `http://localhost:8100/reset-password/${oldUser._id}/${token}`;
+    //const link = `https://guarded-fortress-84785.herokuapp.com/reset-password/?id=${oldUser._id}&token=${token}`;
+    console.log('link');
 
     // créer un transporteur
     const transporter = nodemailer.createTransport({
