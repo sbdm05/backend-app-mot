@@ -114,7 +114,7 @@ const forgotPassword = async (req, res) => {
     // ces paramètres nous permettent de retrouver le user et set up un nouveau password
     // const link = `http://localhost:8100/reset-password/${oldUser._id}/${token}`;
     // const link = `https://www.google.fr/?id=${oldUser._id}&token=${token}`;
-     const link = `https://www.guarded-fortress-84785.herokuapp.com/reset-password/?id=${oldUser._id}&token=${token}`;
+     const link = `https://guarded-fortress-84785.herokuapp.com/reset-password/?id=${oldUser._id}&token=${token}`;
     console.log(link, 'link');
 
     // créer un transporteur
