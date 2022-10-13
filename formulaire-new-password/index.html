@@ -11,9 +11,42 @@
 
   <script>
 
-     console.log('connecté')
       const queryString = window.location.search;
-      console.log(queryString, 'test');
+      console.log(queryString);
+
+      const urlParams = new URLSearchParams(queryString);
+
+      const id = urlParams.get('id')
+      console.log(id);
+
+
+      const token = urlParams.get('token')
+      console.log(token);
+
+      const URL = 'https://guarded-fortress-84785.herokuapp.com'
+
+      verifyToken(id, token)
+
+      // verify token
+      // on essaye de récupérer le user
+      const verifyToken = async (id, token)=>{
+                        const options = {
+                              method: 'POST',
+                              headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json;charset=UTF-8'
+                              },
+                              body: JSON.stringify({
+                                id: id,
+                                token: token
+                              })
+                            };
+        const response = await fetch(`${URL}/api/v1/letters/reset-password/`, options)
+        console.log(response)
+      }
+
+
+
   </script>
 </body>
 </html>
