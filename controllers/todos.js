@@ -230,14 +230,15 @@ const getUser = async (req, res) => {
   console.log(req.headers.authorization);
   if (req.headers.authorization) {
     const auth = req.headers.authorization.split(' ')[1];
-    console.log(auth);
+    console.log(auth, 'auth');
 
     try {
       const decoded = jwt.verify(auth, process.env.JWT_KEY);
       console.log(decoded, 'decoded');
       const { user } = decoded;
       //console.log(user);
-      const { _id } = user;
+      const { addedUser } = user;
+      const {_id} = addedUser
       console.log(_id, 'id');
       // const { email } = user;
       // // send back the user
