@@ -116,7 +116,7 @@ const forgotPassword = async (req, res) => {
     // const link = `http://localhost:8100/reset-password/${oldUser._id}/${token}`;
     // const link = `https://www.google.fr/?id=${oldUser._id}&token=${token}`;
     const link = `https://www.guarded-fortress-84785.herokuapp.com/reset-password/?id=${oldUser._id}&token=${token}`;
-    console.log('link');
+    console.log(link, 'link');
 
     // créer un transporteur
     const transporter = nodemailer.createTransport({
