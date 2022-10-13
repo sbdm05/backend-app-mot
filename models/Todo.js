@@ -36,7 +36,7 @@ const TodoSchema = new mongoose.Schema({
     pwd: {
         type: String,
         trim: true,
-        //maxlength: [20, "Ne doit pas dépasser 20 caractères"],
+        minlength: [8, "pas moins de 8 caractères"],
     },
     adjs: {
         type: [String],

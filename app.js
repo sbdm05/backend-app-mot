@@ -15,11 +15,11 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-//app.use(express.static('./formulaire'));
+app.use(express.static('./formulaire-new-password'));
 app.use(cors());
 
 app.use('/api/v1/letters', todosRoutes )
-app.use('/', LoginRoutes)
+// app.use('/', LoginRoutes)
 
 // adresse à utiliser en local =>  localhost:4000
  const port = process.env.PORT || 4000;
