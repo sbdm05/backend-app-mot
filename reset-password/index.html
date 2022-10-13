@@ -40,7 +40,7 @@
             token: token
           })
         };
-        const response = await fetch(`${URL}/api/v1/letters/reset-password/`, options)
+        const response = await fetch(`${URL}/api/v1/letters/reset-password`, options)
         console.log(response);
         const responseJS = await response.json()
         console.log(responseJS)
