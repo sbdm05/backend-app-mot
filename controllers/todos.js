@@ -164,8 +164,10 @@ const forgotPassword = async (req, res) => {
 // reset password - step 1 - vérification du lien envoyé par emamil
 const resetPassword = async (req, res) => {
   console.log(req.body, 'body');
-  const { obj } = req.body;
-  const { id, token } = obj;
+  // const { obj } = req.body;
+  // const { id, token } = obj;
+  const {id, token} = req.body
+  console.log(id, token, "a t on quelque chose ?")
 
   const oldUser = await Todo.findOne({ _id: id });
   if (!oldUser) {
