@@ -41,7 +41,8 @@
           })
         };
         const response = await fetch(`${URL}/api/v1/letters/reset-password/`, options)
-        console.log(response)
+        console.log(response);
+        const responseJS = await response.json()
       }
 
       verifyToken(id, token)
