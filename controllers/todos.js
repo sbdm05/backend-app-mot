@@ -49,7 +49,7 @@ const createTodo = async (req, res) => {
     // rebuild the object with email et hashedpassword et envoyer
 
     const addedUser = await Todo.create(data);
-    // console.log(addedUser, "added user");
+    console.log(addedUser, "added user");
 
     // generate a token
     // besoin d'envoyer un objet!!!!
