@@ -235,9 +235,9 @@ const getUser = async (req, res) => {
     try {
       const decoded = jwt.verify(auth, process.env.JWT_KEY);
       console.log(decoded, 'decoded');
-      const { user } = decoded;
+      //const { user } = decoded;
       //console.log(user);
-      const { addedUser } = user;
+      const { addedUser } = decoded;
       const {_id} = addedUser
       console.log(_id, 'id');
       // const { email } = user;
