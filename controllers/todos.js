@@ -97,7 +97,6 @@ const forgotPassword = async (req, res) => {
   const { email } = req.body;
   console.log(email, 'email');
 
-
   try {
     const oldUser = await Todo.findOne({ email });
     console.log(oldUser, 'oldUser');
@@ -124,7 +123,7 @@ const forgotPassword = async (req, res) => {
       port: 587,
       auth: {
         user: 'contact@ohmycode.io',
-        pass: 'soniadm05',
+        pass: 'SB_DM_05_05_82_!',
       },
     });
 
@@ -152,7 +151,7 @@ const forgotPassword = async (req, res) => {
 
     transporter.sendMail(mailOptions, (err, info) => {
       if (err) console.log(err, 'erreur du transporteur');
-      console.log(info, 'info erreur');
+      console.log(info, 'envoyé ok');
     });
   } catch (e) {
     return res.status(400).json({ status: 'erreur', msg: e });
