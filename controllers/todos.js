@@ -1,26 +1,26 @@
-const Todo = require("../models/Todo");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-const nodemailer = require("nodemailer");
-const { v4: uuidv4 } = require("uuid");
+const Todo = require('../models/Todo');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
+const { v4: uuidv4 } = require('uuid');
 
 // obtenir tous les utilisateurs
 const getTodos = async (req, res) => {
-  console.log("test depuis getTodos");
+  console.log('test depuis getTodos');
   // utiliser la méthode Model.find({})
   try {
     const todos = await Todo.find({});
 
     return res.json({ success: true, users: todos });
   } catch (error) {
-    console.log("erreur dans get");
+    console.log('erreur dans get');
     res.status(500).json({ msg: error });
   }
 };
 
 // créer un utilisateur
 const createTodo = async (req, res) => {
-  console.log(req.body, "body");
+  console.log(req.body, 'body');
   // création d'un document de type Todo
   try {
     const { email, pwd } = req.body;
@@ -31,14 +31,14 @@ const createTodo = async (req, res) => {
     if (alreadyExist) {
       return res
         .status(409)
-        .json({ success: false, msg: "user already exists" });
+        .json({ success: false, msg: 'user already exists' });
     }
 
     const hashedPassword = await bcrypt.hash(pwd, 10);
-    console.log(hashedPassword, "test");
+    console.log(hashedPassword, 'test');
 
     const sanitizedEmail = email.toLowerCase();
-    console.log(sanitizedEmail, "email sanitized");
+    console.log(sanitizedEmail, 'email sanitized');
 
     // if does not exist
     const data = {
@@ -54,10 +54,10 @@ const createTodo = async (req, res) => {
     // generate a token
     // besoin d'envoyer un objet!!!!
     const token = jwt.sign({ addedUser }, process.env.JWT_KEY, {
-      expiresIn: "20 days",
+      expiresIn: '20 days',
     });
 
-    console.log(token, "token");
+    console.log(token, 'token');
 
     res.status(201).json({ userId: addedUser._id, token, addedUser });
   } catch (error) {
@@ -67,9 +67,9 @@ const createTodo = async (req, res) => {
 
 // Logger un utilisateur
 const login = async (req, res) => {
-  console.log("test", req.body);
+  console.log('test', req.body);
   const { email, pwd } = req.body;
-  console.log(req.headers, "req.headers");
+  console.log(req.headers, 'req.headers');
 
   try {
     // find the usereaders
@@ -80,14 +80,14 @@ const login = async (req, res) => {
       //     // generate a token
       // besoin d'envoyer un objet!!!!
       const token = jwt.sign({ user }, process.env.JWT_KEY, {
-        expiresIn: "7 days",
+        expiresIn: '7 days',
       });
 
       return res.status(201).json({ token, user: user });
     }
-    res.status(400).json({ status: "Erreur de credentials" });
+    res.status(400).json({ status: 'Erreur de credentials' });
   } catch (error) {
-    console.log(error, "erreur");
+    console.log(error, 'erreur');
   }
 };
 
@@ -100,43 +100,42 @@ const forgotPassword = async (req, res) => {
 
   try {
     const oldUser = await Todo.findOne({ email });
-    console.log(oldUser, "oldUser");
+    console.log(oldUser, 'oldUser');
     if (!oldUser) {
-      return res.status(404).json({ status: "User Not Exists!!" });
+      return res.status(404).json({ status: 'User Not Exists!!' });
     }
     // si email existe
     // créer un token
     const token = jwt.sign({ id: oldUser._id }, process.env.JWT_KEY, {
-      expiresIn: "5m",
+      expiresIn: '5m',
     });
-    console.log(token, "token");
+    console.log(token, 'token');
     // lien unique
     // ici on crée une adresse unique en passant des parametres.
     // ces paramètres nous permettent de retrouver le user et set up un nouveau password
-    const link = `http://localhost:8100/reset-password/${oldUser._id}/${token}`;
-    console.log(link, 'link')
-    //const link = `https://guarded-fortress-84785.herokuapp.com/?id=${oldUser._id}&token=${token}`;
-
+    // const link = `http://localhost:8100/reset-password/${oldUser._id}/${token}`;
+    console.log(link, 'link');
+    const link = `https://guarded-fortress-84785.herokuapp.com/?id=${oldUser._id}&token=${token}`;
 
     // créer un transporteur
     const transporter = nodemailer.createTransport({
-      host: "SSL0.OVH.NET",
+      host: 'SSL0.OVH.NET',
       port: 587,
       auth: {
-        user: "contact@ohmycode.io",
-        pass: "soniadm05",
+        user: 'contact@ohmycode.io',
+        pass: 'soniadm05',
       },
     });
 
     const mailOptions = {
       from: {
-        name: "Lettres De Motivation",
-        address: "contact@ohmycode.io",
+        name: 'Lettres De Motivation',
+        address: 'contact@ohmycode.io',
       },
       to: oldUser.email,
-      subject: "Mot de passe oublié",
+      subject: 'Mot de passe oublié',
       html:
-        "<p>Pour réinitialiser votre mot de passe, merci de cliquer sur le lien suivant</p>" +
+        '<p>Pour réinitialiser votre mot de passe, merci de cliquer sur le lien suivant</p>' +
         link,
     };
 
@@ -151,33 +150,33 @@ const forgotPassword = async (req, res) => {
     // };
 
     transporter.sendMail(mailOptions, (err, info) => {
-      if (err) console.log(err, "erreur du transporteur");
-      console.log(info, "info erreur");
+      if (err) console.log(err, 'erreur du transporteur');
+      console.log(info, 'info erreur');
     });
   } catch (e) {
-    return res.status(400).json({ status: "erreur", msg: e });
+    return res.status(400).json({ status: 'erreur', msg: e });
   }
 
-  return res.status(201).json({ msg: "OK" });
+  return res.status(201).json({ msg: 'OK' });
 };
 
 // reset password - step 1 - vérification du lien envoyé par emamil
 const resetPassword = async (req, res) => {
-  console.log(req.body, "body");
+  console.log(req.body, 'body');
   const { obj } = req.body;
   const { id, token } = obj;
 
   const oldUser = await Todo.findOne({ _id: id });
   if (!oldUser) {
-    return res.json({ status: "User Not Exists!!" });
+    return res.json({ status: 'User Not Exists!!' });
   }
 
   try {
     const verifiedUser = jwt.verify(token, process.env.JWT_KEY);
-    console.log(verifiedUser, "user vérifié");
-    res.status(201).json({ msg: "user verified", user: verifiedUser });
+    console.log(verifiedUser, 'user vérifié');
+    res.status(201).json({ msg: 'user verified', user: verifiedUser });
   } catch (error) {
-    res.status(500).json({ status: "User Not Exists!!" });
+    res.status(500).json({ status: 'User Not Exists!!' });
   }
 };
 
@@ -194,7 +193,7 @@ const saveNewPassword = async (req, res) => {
     console.log(user, newPwd);
     const currentUser = await Todo.findOne({ _id: user.id });
     if (!currentUser) {
-      return res.json({ status: "User Not Exists!!" });
+      return res.json({ status: 'User Not Exists!!' });
     }
 
     // on encrypte le mot de passe
@@ -214,11 +213,13 @@ const saveNewPassword = async (req, res) => {
     );
 
     if (!updatedUser) {
-      return res.status(400).json({ msg: "Echec modification du mot de passe" });
+      return res
+        .status(400)
+        .json({ msg: 'Echec modification du mot de passe' });
     }
     res.json({ success: true, msg: updatedUser });
   } catch (error) {
-    console.log(error, "erreur");
+    console.log(error, 'erreur');
   }
 };
 
@@ -227,25 +228,25 @@ const getUser = async (req, res) => {
   // récupérer le header avec token
   console.log(req.headers.authorization);
   if (req.headers.authorization) {
-    const auth = req.headers.authorization.split(" ")[1];
+    const auth = req.headers.authorization.split(' ')[1];
     console.log(auth);
 
     try {
       const decoded = jwt.verify(auth, process.env.JWT_KEY);
-      console.log(decoded, "decoded");
+      console.log(decoded, 'decoded');
       const { user } = decoded;
       //console.log(user);
       const { _id } = user;
-      console.log(_id, "id");
+      console.log(_id, 'id');
       // const { email } = user;
       // // send back the user
       if (decoded) {
         const user = await Todo.findOne({ _id });
-        console.log(user, "user");
-        return res.status(201).json({ msg: "successTrue", user: user });
+        console.log(user, 'user');
+        return res.status(201).json({ msg: 'successTrue', user: user });
       }
     } catch (e) {
-      console.log(e, "error");
+      console.log(e, 'error');
     }
   }
 
@@ -256,11 +257,11 @@ const getUser = async (req, res) => {
 
 // créer un contact dans >letters
 const createApplication = async (req, res) => {
-  console.log(req.body, "req.body");
+  console.log(req.body, 'req.body');
 
   try {
     const { _id, pwd } = req.body;
-    console.log(req.body, "req.body");
+    console.log(req.body, 'req.body');
 
     const todo = await Todo.findOneAndUpdate({ pwd: pwd }, req.body, {
       new: true,
@@ -268,7 +269,7 @@ const createApplication = async (req, res) => {
     });
     // gérer le cas ou pas de todo
     if (!todo) {
-      return res.status(400).json({ msg: "pas de todos avec cette id" });
+      return res.status(400).json({ msg: 'pas de todos avec cette id' });
     }
     res.json({ success: true, msg: todo });
   } catch (error) {
@@ -281,7 +282,7 @@ const savedApplication = async (req, res) => {
     console.log(req.body);
     const { user, newValue } = req.body;
     const { email } = user;
-    const date = new Date().toLocaleDateString("fr");
+    const date = new Date().toLocaleDateString('fr');
 
     // find the user &update
     const response = await Todo.findOneAndUpdate(
@@ -298,14 +299,14 @@ const savedApplication = async (req, res) => {
     );
 
     if (!response) {
-      return res.status(400).json({ status: "error" });
+      return res.status(400).json({ status: 'error' });
     }
-    return res.status(201).json({ status: "success", msg: response });
+    return res.status(201).json({ status: 'success', msg: response });
   } catch (error) {
-    console.log(error, "error");
+    console.log(error, 'error');
   }
 
-  res.status(200).json({ msg: "ok depuis saved application" });
+  res.status(200).json({ msg: 'ok depuis saved application' });
 };
 
 const deleteApplication = async (req, res) => {
@@ -327,19 +328,19 @@ const deleteApplication = async (req, res) => {
     );
 
     if (!response) {
-      return res.status(400).json({ status: "error" });
+      return res.status(400).json({ status: 'error' });
     }
-    return res.status(201).json({ status: "success", msg: response });
+    return res.status(201).json({ status: 'success', msg: response });
   } catch (error) {
-    console.log(error, "error");
+    console.log(error, 'error');
   }
 
-  res.status(200).json({ msg: "ok depuis saved application" });
+  res.status(200).json({ msg: 'ok depuis saved application' });
 };
 
 // permet de compléter les infos du user
 const editTodo = async (req, res) => {
-  console.log(req.body, "req.body");
+  console.log(req.body, 'req.body');
   // res.json({ success: true, msg: 'editTodo work' });
   // req.body
   // findOneAndUpdate({_id: id}, body)
@@ -352,7 +353,7 @@ const editTodo = async (req, res) => {
     });
     // gérer le cas ou pas de todo
     if (!todo) {
-      return res.status(400).json({ msg: "pas de todos avec cette id" });
+      return res.status(400).json({ msg: 'pas de todos avec cette id' });
     }
     res.json({ success: true, msg: todo });
   } catch (error) {
@@ -369,7 +370,7 @@ const getSingleTodo = async (req, res) => {
     const todo = await Todo.findOne({ _id: id });
     // gérer le cas ou pas de todo
     if (!todo) {
-      return res.status(400).json({ msg: "pas de todos avec cette id" });
+      return res.status(400).json({ msg: 'pas de todos avec cette id' });
     }
     res.json({ success: true, msg: todo });
   } catch (error) {
@@ -385,7 +386,7 @@ const deleteTodo = async (req, res) => {
     const todo = await Todo.findOneAndDelete({ _id: id });
     // gérer le cas ou pas de todo
     if (!todo) {
-      return res.status(400).json({ msg: "pas de todos avec cette id" });
+      return res.status(400).json({ msg: 'pas de todos avec cette id' });
     }
     res.json({ success: true, msg: todo });
   } catch (error) {
