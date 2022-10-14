@@ -105,7 +105,7 @@
           console.log(responseJS)
 
           // gestion des messages utilisateurs
-          if(responseJS.msg){
+          if(responseJS.msg === true){
             message.innerText = 'Mot de passe modifié avec succès. Vous pouvez refermer cette page.'
           }else{
             message.innerText = responseJS.msg
