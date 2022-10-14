@@ -193,7 +193,7 @@ const saveNewPassword = async (req, res) => {
     // extraire le mot de passe
     const { id, newPwd } = req.body;
     console.log(id, newPwd, 'depuis save new password ligne 195');
-    const currentUser = await Todo.findOne({ _id: id });// besoin de _id ?
+    const currentUser = await Todo.findOne({ _id: Number(id) });// besoin de _id ?
     if (!currentUser) {
       return res
         .status(400)
