@@ -136,8 +136,8 @@ const forgotPassword = async (req, res) => {
       to: oldUser.email,
       subject: 'Mot de passe oublié',
       html:
-        '<p>Pour réinitialiser votre mot de passe, merci de cliquer sur le lien suivant</p>' +
-        link,
+        `<p>Pour réinitialiser votre mot de passe, merci de cliquer sur le lien suivant</p>
+        <a href='${link}'>Réinitialiser votre mot de passe</a>`
     };
 
     // const mailOptions = {
