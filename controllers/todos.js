@@ -194,9 +194,9 @@ const saveNewPassword = async (req, res) => {
     const { id, newPwd } = req.body;
     console.log(typeof(id), id,'depuis save new password ligne 195');
 
-    let idNumber = Number(id)
 
-    const currentUser = await Todo.findOne({ _id: idNumber });// besoin de _id ?
+
+    const currentUser = await Todo.findOne({ _id: id });// besoin de _id ?
     if (!currentUser) {
       return res
         .status(400)
