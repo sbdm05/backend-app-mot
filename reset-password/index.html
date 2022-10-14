@@ -83,7 +83,7 @@
           //   user: 'user',
           //   newPwd: val,
           // };
-          
+          console.log(user.addedUser._id, 'id user')
           // appel au service update-user
           const options = {
             method: 'POST',
@@ -92,7 +92,7 @@
               'Content-Type': 'application/json;charset=UTF-8'
             },
             body: JSON.stringify({
-              user: user,
+              id: user.addedUser._id,
               newPwd: val,
             })
           };
