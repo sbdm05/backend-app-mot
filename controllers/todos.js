@@ -131,13 +131,12 @@ const forgotPassword = async (req, res) => {
     const mailOptions = {
       from: {
         name: 'Lettres De Motivation',
-        address: 'contact@ohmycode.io',
+        address: 'contact@guarded-fortress-84785.herokuapp.com',
       },
       to: oldUser.email,
       subject: 'Mot de passe oublié',
-      html:
-        `<p>Pour réinitialiser votre mot de passe, merci de cliquer sur le lien suivant</p>
-        <a href='${link}'>Réinitialiser votre mot de passe</a>`
+      html: `<p>Pour réinitialiser votre mot de passe, merci de cliquer sur le lien suivant</p>
+        <a href='${link}'>Réinitialiser votre mot de passe</a>`,
     };
 
     // const mailOptions = {
