@@ -245,8 +245,8 @@ const getUser = async (req, res) => {
       console.log(decoded, 'decoded');
       //const { user } = decoded;
       //console.log(user);
-      const { addedUser } = decoded;
-      const { _id } = addedUser;
+      const { user  } = decoded;
+      const { _id } = user;
       console.log(_id, 'id');
       // const { email } = user;
       // // send back the user
