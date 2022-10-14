@@ -57,10 +57,10 @@
         console.log(response);
         const responseJS = await response.json()
         console.log(responseJS)
-        if (responseJS.msg === 'user verified'){
+        if (responseJS.success){
           user = responseJS.user
         }else{
-          console.log(responseJS.msg, 'erreur')
+          console.log('erreur')
         }
       }
 

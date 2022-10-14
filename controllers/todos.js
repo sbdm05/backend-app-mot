@@ -177,9 +177,9 @@ const resetPassword = async (req, res) => {
   try {
     const verifiedUser = jwt.verify(token, process.env.JWT_KEY);
     console.log(verifiedUser, 'user vérifié');
-    res.status(201).json({ msg: 'user verified', user: verifiedUser });
+    res.status(201).json({ success: true, user: verifiedUser });
   } catch (error) {
-    res.status(500).json({ status: 'User Not Exists!!' });
+    res.status(500).json({ success: false, msg: "Echec de l'authentification" });
   }
 };
 
@@ -195,7 +195,9 @@ const saveNewPassword = async (req, res) => {
     console.log(id, newPwd, 'depuis save new password ligne 195');
     const currentUser = await Todo.findOne({ _id: id });// besoin de _id ?
     if (!currentUser) {
-      return res.json({ status: 'User Not Exists!!' });
+      return res
+        .status(400)
+        .json({ success: false, msg: 'Une erreur est apparue avec ce lien.' });
     }
 
     // on encrypte le mot de passe
