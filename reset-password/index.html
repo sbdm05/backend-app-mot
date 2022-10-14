@@ -16,6 +16,7 @@
     <button type='submit'>Valider</button>
 
   </form>
+  <div id='message'></div>
 
   <script>
 
@@ -101,8 +102,13 @@
           const responseJS = await responseJSON.json();
           console.log(responseJS)
 
+          // gestion des messages utilisateurs
+          if(responseJS.msg){
+            message.innerText = 'Mot de passe modifié avec succès.'
+          }else{
+            message.innerText = responseJS.msg
 
-
+          }
 
 
         }

@@ -217,7 +217,7 @@ const saveNewPassword = async (req, res) => {
     if (!updatedUser) {
       return res
         .status(400)
-        .json({ msg: 'Echec modification du mot de passe' });
+        .json({ success: false, msg: 'Echec modification du mot de passe' });
     }
     res.json({ success: true, msg: updatedUser });
   } catch (error) {
