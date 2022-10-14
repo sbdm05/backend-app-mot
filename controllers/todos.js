@@ -193,7 +193,7 @@ const saveNewPassword = async (req, res) => {
     // extraire le mot de passe
     const { user, newPwd } = req.body;
     console.log(user, newPwd, 'depuis save new password ligne 195');
-    const currentUser = await Todo.findOne({ _id: user._id });// besoin de _id ? 
+    const currentUser = await Todo.findOne({ _id: user._id });// besoin de _id ?
     if (!currentUser) {
       return res.json({ status: 'User Not Exists!!' });
     }
@@ -202,7 +202,7 @@ const saveNewPassword = async (req, res) => {
     const encryptedPwd = await bcrypt.hash(newPwd, 10);
 
     const updatedUser = await Todo.findOneAndUpdate(
-      { _id: user.id },
+      { _id: user._id },
       {
         $set: {
           pwd: encryptedPwd,
