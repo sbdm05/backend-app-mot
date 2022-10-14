@@ -70,12 +70,14 @@
       // take new value et faire un appel pour enregistrer le nouveau mot de passe.
 
       form.addEventListener('submit', async (e)=>{
+        message.innerText='';
         e.preventDefault();
         const val = newPwd.value.trim();
         console.log(val, 'val');
 
         if(val.length <=6){
           console.log('erreur')
+          message.innerText = 'Le mot de passe doit contenir 7 caractères minimum'
         }else{
           // appel vers api
 
