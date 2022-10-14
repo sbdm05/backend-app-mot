@@ -181,9 +181,7 @@ const resetPassword = async (req, res) => {
       (err, decoded) => {
         // check token validity
         if (err) {
-          return res
-            .status(500)
-            .json({ success: false, msg: 'token pas valide' });
+          throw new Error(err)
         }
         console.log(verifiedUser, 'user vérifié');
 
