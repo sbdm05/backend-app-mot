@@ -178,7 +178,7 @@ const resetPassword = async (req, res) => {
     const verifiedUser = jwt.verify(
       token,
       process.env.JWT_KEY,
-      (err) => {
+      (err, decoded) => {
         // check token validity
         if (err) {
           return res
