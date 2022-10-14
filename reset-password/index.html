@@ -58,7 +58,7 @@
         const responseJS = await response.json()
         console.log(responseJS)
         if (responseJS.success){
-          user = responseJS.user
+          user = responseJS.user.user
         }else{
           console.log('erreur')
         }
