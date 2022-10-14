@@ -9,14 +9,18 @@
   <title>Document</title>
 </head>
 <body>
-  <h1>Test</h1>
+  <h1>Choisissez votre nouveau mot de passe</h1>
 
-  <form>
-    <ion-input type='text' placeholder='Votre nouveau mot de passe'></ion-input>
+  <form id='form'>
+    <input type='text' placeholder='Votre nouveau mot de passe' id='newPwd'></input>
+    <button type='submit'>Valider</button>
 
   </form>
 
   <script>
+
+      const form= document.getElementById('form');
+      const newPwd = document.getElementById('newPwd')
 
       const queryString = window.location.search;
       console.log(queryString);
@@ -57,6 +61,13 @@
 
       // maintenant on peut faire la suite :
       // take new value et faire un appel pour enregistrer le nouveau mot de passe.
+
+      form.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        const val = newPwd.value.trim();
+        console.log(val, 'val')
+
+      })
 
 
 
