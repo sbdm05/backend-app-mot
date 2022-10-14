@@ -20,7 +20,8 @@
   <script>
 
       const form= document.getElementById('form');
-      const newPwd = document.getElementById('newPwd')
+      const newPwd = document.getElementById('newPwd');
+      let user;
 
       const queryString = window.location.search;
       console.log(queryString);
@@ -55,6 +56,11 @@
         console.log(response);
         const responseJS = await response.json()
         console.log(responseJS)
+        if (responseJS.msg === 'user verified'){
+          user = responseJS.user
+        }else{
+          console.log(responseJS.msg, 'erreur')
+        }
       }
 
       verifyToken(id, token)
@@ -62,10 +68,44 @@
       // maintenant on peut faire la suite :
       // take new value et faire un appel pour enregistrer le nouveau mot de passe.
 
-      form.addEventListener('submit', (e)=>{
+      form.addEventListener('submit', async (e)=>{
         e.preventDefault();
         const val = newPwd.value.trim();
-        console.log(val, 'val')
+        console.log(val, 'val');
+
+        if(val.length <=6){
+          console.log('erreur')
+        }else{
+          // appel vers api
+
+          // création d'un nouvel objet
+          // const obj = {
+          //   user: 'user',
+          //   newPwd: val,
+          // };
+          console.log(obj, 'infos à envoyer à saveNewPassword');
+          // appel au service update-user
+          const options = {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json;charset=UTF-8'
+            },
+            body: JSON.stringify({
+              user: user,
+              newPwd: val,
+            })
+          };
+          const responseJSON = await fetch('https://guarded-fortress-84785.herokuapp.com/api/v1/letters/save-new-password',
+          options);
+          const responseJS = await responseJSON.json();
+          console.log(responseJS)
+
+
+
+
+
+        }
 
       })
 

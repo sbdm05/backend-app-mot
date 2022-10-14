@@ -188,12 +188,11 @@ const saveNewPassword = async (req, res) => {
   // ici il faut aussi passer l'id pour retrouver le user
   // d'abord on recherche le user avec l'id
   try {
-    console.log(req.body);
+    console.log(req.body, 'depuis save new password');
 
     // extraire le mot de passe
     const { user, newPwd } = req.body;
-
-    console.log(user, newPwd);
+    console.log(user, newPwd, 'depuis save new password ligne 195');
     const currentUser = await Todo.findOne({ _id: user.id });
     if (!currentUser) {
       return res.json({ status: 'User Not Exists!!' });
