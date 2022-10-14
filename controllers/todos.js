@@ -49,7 +49,7 @@ const createTodo = async (req, res) => {
     // rebuild the object with email et hashedpassword et envoyer
 
     const addedUser = await Todo.create(data);
-    console.log(addedUser, "added user");
+    console.log(addedUser, 'added user');
 
     // generate a token
     // besoin d'envoyer un objet!!!!
@@ -114,7 +114,7 @@ const forgotPassword = async (req, res) => {
     // ces paramètres nous permettent de retrouver le user et set up un nouveau password
     // const link = `http://localhost:8100/reset-password/${oldUser._id}/${token}`;
     // const link = `https://www.google.fr/?id=${oldUser._id}&token=${token}`;
-     const link = `https://guarded-fortress-84785.herokuapp.com/reset-password/?id=${oldUser._id}&token=${token}`;
+    const link = `https://guarded-fortress-84785.herokuapp.com/reset-password/?id=${oldUser._id}&token=${token}`;
     console.log(link, 'link');
 
     // créer un transporteur
@@ -166,8 +166,8 @@ const resetPassword = async (req, res) => {
   console.log(req.body, 'body');
   // const { obj } = req.body;
   // const { id, token } = obj;
-  const {id, token} = req.body
-  console.log(id, token, "a t on quelque chose ?")
+  const { id, token } = req.body;
+  console.log(id, token, 'a t on quelque chose ?');
 
   const oldUser = await Todo.findOne({ _id: id });
   if (!oldUser) {
@@ -175,11 +175,25 @@ const resetPassword = async (req, res) => {
   }
 
   try {
-    const verifiedUser = jwt.verify(token, process.env.JWT_KEY);
-    console.log(verifiedUser, 'user vérifié');
-    res.status(201).json({ success: true, user: verifiedUser });
+    const verifiedUser = jwt.verify(
+      token,
+      process.env.JWT_KEY,
+      (err) => {
+        // check token validity
+        if (err) {
+          return res
+            .status(500)
+            .json({ success: false, msg: 'token pas valide' });
+        }
+        console.log(verifiedUser, 'user vérifié');
+
+        res.status(201).json({ success: true, user: verifiedUser });
+      }
+    );
   } catch (error) {
-    res.status(500).json({ success: false, msg: "Echec de l'authentification" });
+    res
+      .status(500)
+      .json({ success: false, msg: "Echec de l'authentification" });
   }
 };
 
@@ -192,11 +206,9 @@ const saveNewPassword = async (req, res) => {
 
     // extraire le mot de passe
     const { _id, newPwd } = req.body;
-    console.log(typeof(_id), _id,'depuis save new password ligne 195');
+    console.log(typeof _id, _id, 'depuis save new password ligne 195');
 
-
-
-    const currentUser = await Todo.findOne({ _id: _id });// besoin de _id ?
+    const currentUser = await Todo.findOne({ _id: _id }); // besoin de _id ?
     if (!currentUser) {
       return res
         .status(400)
@@ -207,7 +219,7 @@ const saveNewPassword = async (req, res) => {
     const encryptedPwd = await bcrypt.hash(newPwd, 10);
 
     const updatedUser = await Todo.findOneAndUpdate(
-      { _id: _id},
+      { _id: _id },
       {
         $set: {
           pwd: encryptedPwd,
@@ -244,7 +256,7 @@ const getUser = async (req, res) => {
       //const { user } = decoded;
       //console.log(user);
       const { addedUser } = decoded;
-      const {_id} = addedUser
+      const { _id } = addedUser;
       console.log(_id, 'id');
       // const { email } = user;
       // // send back the user
