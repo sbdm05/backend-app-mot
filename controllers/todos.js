@@ -79,7 +79,7 @@ const login = async (req, res) => {
     if (!user) {
       return res
         .status(409)
-        .json({ success: false, msg: 'pas de compte avec cet e-mail' });
+        .json({ success: false, msg: 'Pas de compte avec cet e-mail' });
     }
 
     if (user && (await bcrypt.compare(pwd, user.pwd))) {
@@ -91,9 +91,10 @@ const login = async (req, res) => {
 
       return res.status(201).json({ token, user: user });
     }
-    res.status(400).json({ status: 'Erreur de credentials' });
+    res.status(400).json({ success: false, msg: 'Erreur de credentials' });
   } catch (error) {
     console.log(error, 'erreur');
+
   }
 };
 
