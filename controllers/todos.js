@@ -24,11 +24,11 @@ const createTodo = async (req, res) => {
   // création d'un document de type Todo
   try {
     const { email, pwd } = req.body;
-    email.toLowerCase();
-    console.log(email, 'email en min')
+    const sanitizedEmail = email.toLowerCase();
+    console.log(sanitizedEmail, 'email sanitized');
     // hasher le password
     // attention cette méthode a besoin de lowercase d'abord, sinon pas de match
-    const alreadyExist = await Todo.findOne({ email });
+    const alreadyExist = await Todo.findOne({ sanitizedEmail });
 
     if (alreadyExist) {
       return res
@@ -39,8 +39,8 @@ const createTodo = async (req, res) => {
     const hashedPassword = await bcrypt.hash(pwd, 10);
     console.log(hashedPassword, 'test');
 
-    const sanitizedEmail = email.toLowerCase();
-    console.log(sanitizedEmail, 'email sanitized');
+    // const sanitizedEmail = email.toLowerCase();
+    // console.log(sanitizedEmail, 'email sanitized');
 
     // if does not exist
     const data = {
