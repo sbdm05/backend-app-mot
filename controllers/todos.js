@@ -91,7 +91,7 @@ const login = async (req, res) => {
 
       return res.status(201).json({ token, user: user });
     }
-    res.status(400).json({ success: false, msg: 'Erreur de credentials' });
+    res.status(400).json({ success: false, msg: "L'email et le mot de passe ne correspondent pas" });
   } catch (error) {
     console.log(error, 'erreur');
 
