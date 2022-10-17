@@ -24,6 +24,8 @@ const createTodo = async (req, res) => {
   // création d'un document de type Todo
   try {
     const { email, pwd } = req.body;
+    email.toLowerCase();
+
     // hasher le password
 
     const alreadyExist = await Todo.findOne({ email });
