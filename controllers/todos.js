@@ -25,9 +25,9 @@ const createTodo = async (req, res) => {
   try {
     const { email, pwd } = req.body;
     email.toLowerCase();
-
+    console.log(email, 'email en min')
     // hasher le password
-
+    // attention cette méthode a besoin de lowercase d'abord, sinon pas de match
     const alreadyExist = await Todo.findOne({ email });
 
     if (alreadyExist) {
