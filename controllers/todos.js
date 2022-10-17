@@ -28,7 +28,7 @@ const createTodo = async (req, res) => {
     const sanitizedEmail = email.toLowerCase();
     console.log(sanitizedEmail, 'email sanitized');
 
-    const alreadyExist = await Todo.findOne({ sanitizedEmail });
+    const alreadyExist = await Todo.findOne({ email : sanitizedEmail });
 
     if (alreadyExist) {
       console.log('dans already exists')
