@@ -72,9 +72,15 @@ const login = async (req, res) => {
   console.log(req.headers, 'req.headers');
 
   try {
-    // find the usereaders
+    // find the user
     const user = await Todo.findOne({ email: email });
-    console.log(user);
+    console.log(user, 'user depuis ligne 77');
+
+    if (!user) {
+      return res
+        .status(409)
+        .json({ success: false, msg: 'pas de compte avec cet e-mail' });
+    }
 
     if (user && (await bcrypt.compare(pwd, user.pwd))) {
       //     // generate a token
@@ -113,7 +119,7 @@ const forgotPassword = async (req, res) => {
     // ici on crée une adresse unique en passant des parametres.
     // ces paramètres nous permettent de retrouver le user et set up un nouveau password
     // const link = `http://localhost:8100/reset-password/${oldUser._id}/${token}`;
-     const link = `https://guarded-fortress-84785.herokuapp.com/reset-password/?id=${oldUser._id}&token=${token}`;
+    const link = `https://guarded-fortress-84785.herokuapp.com/reset-password/?id=${oldUser._id}&token=${token}`;
     // const link = `https://guarded-fortress-84785.herokuapp.com/reset-password/?id=${oldUser._id}&token=${token}`;
     console.log(link, 'link');
 
@@ -244,7 +250,7 @@ const getUser = async (req, res) => {
       console.log(decoded, 'decoded');
       //const { user } = decoded;
       //console.log(user);
-      const { user  } = decoded;
+      const { user } = decoded;
       const { _id } = user;
       console.log(_id, 'id');
       // const { email } = user;
