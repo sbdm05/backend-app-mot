@@ -57,7 +57,7 @@ const createTodo = async (req, res) => {
 
     // generate a token
     // besoin d'envoyer un objet!!!!
-    const token = jwt.sign( addedUser , process.env.JWT_KEY, {
+    const token = jwt.sign( addedUser.toObject() , process.env.JWT_KEY, {
       expiresIn: '20 days',
     });
 
