@@ -73,7 +73,7 @@ const createTodo = async (req, res) => {
 const login = async (req, res) => {
   console.log('test', req.body);
   const { email, pwd } = req.body;
-  console.log(req.headers, 'req.headers');
+  console.log(email, pwd)
 
   try {
     // find the user
