@@ -261,7 +261,7 @@ const getUser = async (req, res) => {
       // const { email } = user;
       // // send back the user
       if (decoded) {
-        const user = await Todo.findOne({ _id });
+        const user = await Todo.findOne({ _id: _id });
         console.log(user, 'user');
         return res.status(201).json({ msg: 'successTrue', user: user });
       }
