@@ -253,10 +253,7 @@ const getUser = async (req, res) => {
     try {
       const decoded = jwt.verify(auth, process.env.JWT_KEY);
       console.log(decoded, 'decoded');
-      //const { user } = decoded;
-      //console.log(user);
-      const { user } = decoded;
-      const { _id } = user;
+      const { _id } = decoded;
       console.log(_id, 'id');
       // const { email } = user;
       // // send back the user
