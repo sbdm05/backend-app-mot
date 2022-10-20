@@ -28,13 +28,13 @@ const createTodo = async (req, res) => {
     const sanitizedEmail = email.toLowerCase();
     console.log(sanitizedEmail, 'email sanitized');
 
-    const alreadyExist = await Todo.findOne({ email : sanitizedEmail });
+    const alreadyExist = await Todo.findOne({ email: sanitizedEmail });
 
     if (alreadyExist) {
-      console.log('dans already exists')
+      console.log('dans already exists');
       return res
-      .status(409)
-      .json({ success: false, msg: 'user already exists' });
+        .status(409)
+        .json({ success: false, msg: 'user already exists' });
     }
 
     // hasher le password
@@ -57,7 +57,7 @@ const createTodo = async (req, res) => {
 
     // generate a token
     // besoin d'envoyer un objet!!!!
-    const token = jwt.sign( addedUser.toObject() , process.env.JWT_KEY, {
+    const token = jwt.sign(addedUser.toObject(), process.env.JWT_KEY, {
       expiresIn: '20 days',
     });
 
@@ -73,7 +73,7 @@ const createTodo = async (req, res) => {
 const login = async (req, res) => {
   console.log('test', req.body);
   const { email, pwd } = req.body;
-  console.log(email, pwd)
+  console.log(email, pwd);
 
   try {
     // find the user
@@ -95,10 +95,14 @@ const login = async (req, res) => {
 
       return res.status(201).json({ token, user: user });
     }
-    res.status(400).json({ success: false, msg: "L'email et le mot de passe ne correspondent pas" });
+    res
+      .status(400)
+      .json({
+        success: false,
+        msg: "L'email et le mot de passe ne correspondent pas",
+      });
   } catch (error) {
     console.log(error, 'erreur');
-
   }
 };
 
@@ -253,11 +257,18 @@ const getUser = async (req, res) => {
     try {
       const decoded = jwt.verify(auth, process.env.JWT_KEY);
       console.log(decoded, 'decoded');
-      const { _id } = decoded;
-      console.log(_id, 'id');
+      // si {user{}}
+      // const { _id } = decoded;
+      // console.log(_id, 'id');
       // const { email } = user;
       // // send back the user
-      if (decoded) {
+      if (decoded.user) {
+        const { user } = decoded;
+        const { _id } = user;
+        const currentUser = await Todo.findOne({ _id: _id });
+        console.log(currentUser, 'currentUser');
+        return res.status(201).json({ msg: 'successTrue', user: currentUser });
+      }else{
         const user = await Todo.findOne({ _id: _id });
         console.log(user, 'user');
         return res.status(201).json({ msg: 'successTrue', user: user });
