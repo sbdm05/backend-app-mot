@@ -269,6 +269,7 @@ const getUser = async (req, res) => {
         console.log(currentUser, 'currentUser');
         return res.status(201).json({ msg: 'successTrue', user: currentUser });
       }else{
+        const { _id } = decoded;
         const user = await Todo.findOne({ _id: _id });
         console.log(user, 'user');
         return res.status(201).json({ msg: 'successTrue', user: user });
