@@ -2,7 +2,7 @@
   "routes": [
     {
       "src": "",
-      "dest": "app.js"
+      "dest": "/api/v1/letters"
     }
   ]
 }
