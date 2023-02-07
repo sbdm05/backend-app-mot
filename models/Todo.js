@@ -30,8 +30,7 @@ const TodoSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        trim: true,
-        maxlength: [20, "Ne doit pas dépasser 20 caractères"],
+        trim: true
     },
     pwd: {
         type: String,

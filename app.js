@@ -30,7 +30,7 @@ app.use('/api/v1/letters', todosRoutes )
 const start = async()=>{
     try {
         await connectDB(process.env.MONGO_URI)
-        app.listen(port, ()=> console.log('app listening'))
+        app.listen(port, ()=> console.log(`app listening on port ${port}`))
     } catch (error) {
         console.log(error)
     }
