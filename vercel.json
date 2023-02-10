@@ -1,7 +1,7 @@
 {
   "builds": [
     { "src": "app.js", "use": "@vercel/node" },
-    { "src": "reset-password/**", "use": "@vercel/static" }
+    { "src": "reset-password/(.*)", "use": "@vercel/static" }
   ],
   "routes": [
     { "src": "/(.*)", "dest": "/app.js" },
