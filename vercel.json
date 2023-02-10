@@ -4,7 +4,9 @@
     { "src": "reset-password/(.*)", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "/app.js" },
+    { "src": "/api/v1/letters", "dest": "/app.js" },
     { "src": "/reset-password/(.*)", "dest": "https://mes-lettres.vercel.app/reset-password/index.html" }
   ]
 }
+
+
