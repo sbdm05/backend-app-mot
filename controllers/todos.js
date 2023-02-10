@@ -15,6 +15,7 @@ const getTodos = async (req, res) => {
   console.log(process.env.PRIVATE_KEY_ADMIN, 'private')
   // vérifier l'api
   if (API_KEY == process.env.PRIVATE_KEY_ADMIN) {
+    console.log('oui')
     try {
       // utiliser la méthode Model.find({})
       const todos = await Todo.find({});
@@ -25,6 +26,7 @@ const getTodos = async (req, res) => {
       res.status(500).json({ msg: error });
     }
   } else {
+    console.log('non');
     res.status(500).json({ msg: 'Accès non autorisé' });
   }
 };
@@ -117,6 +119,7 @@ const login = async (req, res) => {
 
 //forgot-password d'un utilisateur
 const forgotPassword = async (req, res) => {
+  console.log('depuis forgot password')
   // récupérer l'email
   const { email } = req.body;
   console.log(email, 'email');
@@ -184,7 +187,7 @@ const forgotPassword = async (req, res) => {
   return res.status(201).json({ msg: 'OK' });
 };
 
-// reset password - step 1 - vérification du lien envoyé par emamil
+// reset password - step 1 - vérification du lien envoyé par email
 const resetPassword = async (req, res) => {
   console.log(req.body, 'body');
   // const { obj } = req.body;

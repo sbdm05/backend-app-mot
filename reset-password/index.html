@@ -40,7 +40,7 @@
       const token = urlParams.get('token')
       console.log(token);
 
-      const URL = 'https://guarded-fortress-84785.herokuapp.com'
+      const URL = 'https://mes-lettres.vercel.app'
 
 
       // verify token
@@ -104,7 +104,7 @@
               newPwd: val,
             })
           };
-          const responseJSON = await fetch('https://guarded-fortress-84785.herokuapp.com/api/v1/letters/save-new-password',
+          const responseJSON = await fetch('https://mes-lettres.vercel.app/api/v1/letters/save-new-password',
           options);
           const responseJS = await responseJSON.json();
           console.log(responseJS)
