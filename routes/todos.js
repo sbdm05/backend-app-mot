@@ -17,7 +17,7 @@ const {
     saveNewPassword,
 } = require("../controllers/todos.js");
 
-router.get("/", getTodos);
+router.get("/query", getTodos);
 router.get("/user", getUser);
 router.patch("/user", editTodo);
 

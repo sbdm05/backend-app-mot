@@ -3,18 +3,29 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
+require('dotenv').config();
 
 // obtenir tous les utilisateurs
 const getTodos = async (req, res) => {
   console.log('test depuis getTodos');
-  // utiliser la méthode Model.find({})
-  try {
-    const todos = await Todo.find({});
+  
+  // extraire l'api key
+  console.log(req.query, 'reqquery');
+  const { API_KEY } = req.query;
+  console.log(process.env.PRIVATE_KEY_ADMIN, 'private')
+  // vérifier l'api
+  if (API_KEY == process.env.PRIVATE_KEY_ADMIN) {
+    try {
+      // utiliser la méthode Model.find({})
+      const todos = await Todo.find({});
 
-    return res.json({ success: true, users: todos });
-  } catch (error) {
-    console.log('erreur dans get');
-    res.status(500).json({ msg: error });
+      return res.json({ success: true, users: todos });
+    } catch (error) {
+      console.log('erreur dans get');
+      res.status(500).json({ msg: error });
+    }
+  } else {
+    res.status(500).json({ msg: 'Accès non autorisé' });
   }
 };
 
@@ -95,12 +106,10 @@ const login = async (req, res) => {
 
       return res.status(201).json({ token, user: user });
     }
-    res
-      .status(400)
-      .json({
-        success: false,
-        msg: "L'email et le mot de passe ne correspondent pas",
-      });
+    res.status(400).json({
+      success: false,
+      msg: "L'email et le mot de passe ne correspondent pas",
+    });
   } catch (error) {
     console.log(error, 'erreur');
   }
@@ -128,7 +137,7 @@ const forgotPassword = async (req, res) => {
     // ici on crée une adresse unique en passant des parametres.
     // ces paramètres nous permettent de retrouver le user et set up un nouveau password
     // const link = `http://localhost:8100/reset-password/${oldUser._id}/${token}`;
-    const link = `https://guarded-fortress-84785.herokuapp.com/reset-password/?id=${oldUser._id}&token=${token}`;
+    const link = `https://mes-lettres.vercel.app/reset-password/?id=${oldUser._id}&token=${token}`;
     // const link = `https://guarded-fortress-84785.herokuapp.com/reset-password/?id=${oldUser._id}&token=${token}`;
     console.log(link, 'link');
 
@@ -146,7 +155,7 @@ const forgotPassword = async (req, res) => {
     const mailOptions = {
       from: {
         name: 'Lettres De Motivation',
-        address: 'contact@guarded-fortress-84785.herokuapp.com',
+        address: 'contact@mes-lettres.vercel.app',
       },
       to: oldUser.email,
       subject: 'Mot de passe oublié',
@@ -268,14 +277,14 @@ const getUser = async (req, res) => {
         const currentUser = await Todo.findOne({ _id: _id });
         console.log(currentUser, 'currentUser');
         return res.status(201).json({ msg: 'successTrue', user: currentUser });
-      }else{
+      } else {
         const { _id } = decoded;
         const user = await Todo.findOne({ _id: _id });
         console.log(user, 'user');
         return res.status(201).json({ msg: 'successTrue', user: user });
       }
-    } catch (e) {
-      console.log(e, 'error');
+    } catch (error) {
+      res.status(500).json({ msg: error });
     }
   }
 
@@ -332,7 +341,7 @@ const savedApplication = async (req, res) => {
     }
     return res.status(201).json({ status: 'success', msg: response });
   } catch (error) {
-    console.log(error, 'error');
+    res.status(500).json({ msg: error });
   }
 
   res.status(200).json({ msg: 'ok depuis saved application' });
@@ -361,7 +370,7 @@ const deleteApplication = async (req, res) => {
     }
     return res.status(201).json({ status: 'success', msg: response });
   } catch (error) {
-    console.log(error, 'error');
+    res.status(500).json({ msg: error });
   }
 
   res.status(200).json({ msg: 'ok depuis saved application' });
