@@ -4,10 +4,9 @@
     { "src": "reset-password/(.*)", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/reset-password/(.*)", "dest": "https://mes-lettres.vercel.app/reset-password/index.html" },
-    { "src": "/(.*)", "dest": "/app.js" }
+    { "src": "/(.*)", "dest": "/app.js" },
+    { "src": "/reset-password/(.*)", "dest": "https://mes-lettres.vercel.app/reset-password/index.html" }
   ]
 }
-
 
 
