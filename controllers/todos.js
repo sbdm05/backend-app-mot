@@ -186,7 +186,7 @@ const forgotPassword = async (req, res) => {
     //   html: "hello",
     // };
 
-    transporter.sendMail(mailOptions, (err, info) => {
+    await transporter.sendMail(mailOptions, (err, info) => {
       if (err) console.log(err, 'erreur du transporteur');
       console.log(info, 'envoyé ok');
     });
