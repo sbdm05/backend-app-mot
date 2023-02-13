@@ -186,10 +186,25 @@ const forgotPassword = async (req, res) => {
     //   html: "hello",
     // };
 
-    await transporter.sendMail(mailOptions, (err, info) => {
-      if (err) console.log(err, 'erreur du transporteur');
-      console.log(info, 'envoyé ok');
+    // await transporter.sendMail(mailOptions, (err, info) => {
+    //   if (err) console.log(err, 'erreur du transporteur');
+    //   console.log(info, 'envoyé ok');
+    // });
+    
+    const success = await new Promise((resolve, reject) => {
+      // send mail
+      transporter.sendMail(mailData).then((info, err) => {
+        if (info.response.includes('250')) {
+          resolve(true);
+        }
+        reject(err);
+      });
     });
+    
+    if (!success) {
+      res.status(500).json({ error: 'Error sending email' });
+    }
+
   } catch (e) {
     return res.status(400).json({ status: 'erreur', msg: e });
   }
