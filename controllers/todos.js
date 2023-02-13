@@ -193,7 +193,7 @@ const forgotPassword = async (req, res) => {
     
     const success = await new Promise((resolve, reject) => {
       // send mail
-      transporter.sendMail(mailData).then((info, err) => {
+      transporter.sendMail(mailOptions).then((info, err) => {
         if (info.response.includes('250')) {
           resolve(true);
         }
