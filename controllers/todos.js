@@ -145,20 +145,30 @@ const forgotPassword = async (req, res) => {
     console.log(link, 'link');
 
     // créer un transporteur
+    // const transporter = await nodemailer.createTransport({
+    //   host: 'SSL0.OVH.NET',
+    //   port: 587,
+    //   secure: false,
+    //   auth: {
+    //     user: 'contact@ohmycode.io',
+    //     pass: 'SB_DM_05_05_82_!',
+    //   },
+    // });
+
     const transporter = await nodemailer.createTransport({
-      host: 'SSL0.OVH.NET',
+      host: process.env.SMPT_HOST,
       port: 587,
       secure: false,
       auth: {
-        user: 'contact@ohmycode.io',
-        pass: 'SB_DM_05_05_82_!',
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PWD,
       },
     });
 
     const mailOptions = {
       from: {
         name: 'Lettres De Motivation',
-        address: 'contact@mes-lettres.vercel.app',
+        address: 'contact@ohmycode.io',
       },
       to: oldUser.email,
       subject: 'Mot de passe oublié',
@@ -176,7 +186,7 @@ const forgotPassword = async (req, res) => {
     //   html: "hello",
     // };
 
-    await transporter.sendMail(mailOptions, (err, info) => {
+    transporter.sendMail(mailOptions, (err, info) => {
       if (err) {
         console.log(err, 'erreur du transporteur');
       } else {
