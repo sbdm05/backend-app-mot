@@ -148,7 +148,7 @@ const forgotPassword = async (req, res) => {
     const transporter = await nodemailer.createTransport({
       host: 'SSL0.OVH.NET',
       port: 587,
-      secure: false,
+      secure: true,
       auth: {
         user: 'contact@ohmycode.io',
         pass: 'SB_DM_05_05_82_!',
