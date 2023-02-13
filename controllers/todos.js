@@ -8,14 +8,14 @@ require('dotenv').config();
 // obtenir tous les utilisateurs
 const getTodos = async (req, res) => {
   console.log('test depuis getTodos');
-  
+
   // extraire l'api key
   console.log(req.query, 'reqquery');
   const { API_KEY } = req.query;
-  console.log(process.env.PRIVATE_KEY_ADMIN, 'private')
+  console.log(process.env.PRIVATE_KEY_ADMIN, 'private');
   // vérifier l'api
   if (API_KEY == process.env.PRIVATE_KEY_ADMIN) {
-    console.log('oui')
+    console.log('oui');
     try {
       // utiliser la méthode Model.find({})
       const todos = await Todo.find({});
@@ -119,7 +119,7 @@ const login = async (req, res) => {
 
 //forgot-password d'un utilisateur
 const forgotPassword = async (req, res) => {
-  console.log('depuis forgot password')
+  console.log('depuis forgot password');
   // récupérer l'email
   const { email } = req.body;
   console.log(email, 'email');
@@ -147,7 +147,7 @@ const forgotPassword = async (req, res) => {
     // créer un transporteur
     const transporter = await nodemailer.createTransport({
       host: 'SSL0.OVH.NET',
-      port: 80,
+      port: 465,
       secure: false,
       auth: {
         user: 'contact@ohmycode.io',
