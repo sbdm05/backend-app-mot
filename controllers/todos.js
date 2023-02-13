@@ -155,8 +155,8 @@ const forgotPassword = async (req, res) => {
     //   },
     // });
 
-    const transporter = await nodemailer.createTransport({
-      host: process.env.SMPT_HOST,
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
       port: 587,
       secure: false,
       auth: {
@@ -187,11 +187,8 @@ const forgotPassword = async (req, res) => {
     // };
 
     transporter.sendMail(mailOptions, (err, info) => {
-      if (err) {
-        console.log(err, 'erreur du transporteur');
-      } else {
-        console.log(info, 'info');
-      }
+      if (err) console.log(err, 'erreur du transporteur');
+      console.log(info, 'envoyé ok');
     });
   } catch (e) {
     return res.status(400).json({ status: 'erreur', msg: e });
