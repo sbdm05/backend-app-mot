@@ -168,7 +168,7 @@ const forgotPassword = async (req, res) => {
     const mailOptions = {
       from: {
         name: 'Lettres De Motivation',
-        address: 'contact@ohmycode.io',
+        address: process.env.SMTP_USER_OVH,
       },
       to: oldUser.email,
       subject: 'Mot de passe oublié',
@@ -179,9 +179,9 @@ const forgotPassword = async (req, res) => {
     // const mailOptions = {
     //   from: {
     //     name: "Lettres De Motivation",
-    //     address: "contact@ohmycode.io",
+    //     address: "test@ohmycode.io",
     //   },
-    //   to: "s.baibou@gmail.com",
+    //   to: "test@gmail.com",
     //   subject: "Mot de passe oublié",
     //   html: "hello",
     // };
