@@ -145,25 +145,25 @@ const forgotPassword = async (req, res) => {
     console.log(link, 'link');
 
     // créer un transporteur
-    // const transporter = await nodemailer.createTransport({
-    //   host: 'SSL0.OVH.NET',
-    //   port: 587,
-    //   secure: false,
-    //   auth: {
-    //     user: 'contact@ohmycode.io',
-    //     pass: 'SB_DM_05_05_82_!',
-    //   },
-    // });
-
     const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
+      host: process.env.SMTP_HOST_OVH,
       port: 587,
       secure: false,
       auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PWD,
+        user: process.env.SMTP_USER_OVH,
+        pass: process.env.SMTP_PWD_OVH,
       },
     });
+
+    // const transporter = nodemailer.createTransport({
+    //   host: process.env.SMTP_HOST,
+    //   port: 587,
+    //   secure: false,
+    //   auth: {
+    //     user: process.env.SMTP_USER,
+    //     pass: process.env.SMTP_PWD,
+    //   },
+    // });
 
     const mailOptions = {
       from: {
@@ -190,7 +190,7 @@ const forgotPassword = async (req, res) => {
     //   if (err) console.log(err, 'erreur du transporteur');
     //   console.log(info, 'envoyé ok');
     // });
-    
+
     const success = await new Promise((resolve, reject) => {
       // send mail
       transporter.sendMail(mailOptions).then((info, err) => {
@@ -200,11 +200,10 @@ const forgotPassword = async (req, res) => {
         reject(err);
       });
     });
-    
+
     if (!success) {
       res.status(500).json({ error: 'Error sending email' });
     }
-
   } catch (e) {
     return res.status(400).json({ status: 'erreur', msg: e });
   }
