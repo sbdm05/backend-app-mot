@@ -445,15 +445,16 @@ const getSingleTodo = async (req, res) => {
 
 const deleteTodo = async (req, res) => {
   // utilisation de findOneAndDelete({_id: id})
-  // gérer les erreurs si pas de todo correspondante
   try {
     const { id } = req.params;
-    const todo = await Todo.findOneAndDelete({ _id: id });
-    // gérer le cas ou pas de todo
-    if (!todo) {
-      return res.status(400).json({ msg: 'pas de todos avec cette id' });
+    console.log(id, 'depuis controllers');
+    const deletedUser = await Todo.findOneAndDelete({ _id: id });
+
+    // // gérer le cas ou pas de user
+    if (!deletedUser) {
+      return res.status(400).json({ success: false, msg: 'no user with specified id' });
     }
-    res.json({ success: true, msg: todo });
+    res.json({ success: true, msg : 'user deleted' });
   } catch (error) {
     res.status(500).json({ msg: error });
   }
