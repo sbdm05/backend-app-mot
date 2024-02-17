@@ -42,8 +42,13 @@ const TodoSchema = new mongoose.Schema({
     trim: true,
     // maxlength: [20, "Ne doit pas dépasser 20 caractères"],
   },
+  pic2: {
+    data: Buffer, // Les données binaires de l'image
+    contentType: String, // Le type MIME de l'image
+  },
   pic: {
     type: String,
+    trim: true
   },
   letters: {
     // type: ["Mixed"],
