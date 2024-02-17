@@ -35,7 +35,7 @@ const getTodos = async (req, res) => {
 const createTodo = async (req, res) => {
   console.log(req.body, 'body');
   // création d'un document de type Todo
-  try {
+  try { 
     const { email, pwd } = req.body;
     // attention cette méthode est indispensable sinon findOne ne retrouve pas un email existant
     const sanitizedEmail = email.toLowerCase();
