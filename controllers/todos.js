@@ -35,7 +35,7 @@ const getTodos = async (req, res) => {
 const createTodo = async (req, res) => {
   console.log(req.body, 'body');
   // création d'un document de type Todo
-  try { 
+  try {
     const { email, pwd } = req.body;
     // attention cette méthode est indispensable sinon findOne ne retrouve pas un email existant
     const sanitizedEmail = email.toLowerCase();
@@ -343,6 +343,18 @@ const createApplication = async (req, res) => {
 };
 
 const savedApplication = async (req, res) => {
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  // another common pattern
+  // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET,OPTIONS,PATCH,DELETE,POST,PUT'
+  );
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
   try {
     console.log(req.body);
     const { user, newValue } = req.body;
@@ -452,9 +464,11 @@ const deleteTodo = async (req, res) => {
 
     // // gérer le cas ou pas de user
     if (!deletedUser) {
-      return res.status(400).json({ success: false, msg: 'no user with specified id' });
+      return res
+        .status(400)
+        .json({ success: false, msg: 'no user with specified id' });
     }
-    res.json({ success: true, msg : 'user deleted' });
+    res.json({ success: true, msg: 'user deleted' });
   } catch (error) {
     res.status(500).json({ msg: error });
   }
