@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 // on crée la structure de Todo
 const TodoSchema = new mongoose.Schema({
@@ -43,7 +43,7 @@ const TodoSchema = new mongoose.Schema({
     // maxlength: [20, "Ne doit pas dépasser 20 caractères"],
   },
   pic: {
-    type: string
+    type: String,
   },
   letters: {
     // type: ["Mixed"],
@@ -54,7 +54,7 @@ const TodoSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Todo", TodoSchema);
+module.exports = mongoose.model('Todo', TodoSchema);
 
 // gender: string;
 // prenom: string;
