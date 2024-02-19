@@ -12,12 +12,12 @@ const jwt = require("jsonwebtoken");
 
 
 const app = express();
-app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/reset-password', express.static('./reset-password'));
 
+app.use(cors());
 
 
 app.use('/api/v1/letters', todosRoutes )
