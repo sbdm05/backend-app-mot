@@ -332,7 +332,7 @@ const getUser2 = async (req, res) => {
   // res.status(201).json({ msg: "success" });
 };
 
-const getUser = async (req, res) => {
+const getUser1 = async (req, res) => {
   // Retrieve the authorization header
   const authHeader = req.headers.authorization;
   if (!authHeader) {
@@ -357,6 +357,50 @@ const getUser = async (req, res) => {
     }
 
     // Send back the user
+    return res.status(200).json({ msg: 'successTrue', user });
+  } catch (error) {
+    console.error(error);
+    if (error.name === 'TokenExpiredError') {
+      return res.status(401).json({ msg: 'Token expired' });
+    }
+    if (error.name === 'JsonWebTokenError') {
+      if (error.message === 'invalid signature') {
+        return res.status(401).json({ msg: 'Invalid token signature' });
+      }
+      return res.status(401).json({ msg: 'Invalid token' });
+    }
+    return res.status(500).json({ msg: 'Internal server error' });
+  }
+};
+
+const getUser = async (req, res) => {
+  // Récupérer l'en-tête d'autorisation
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(401).json({ msg: 'No token provided' });
+  }
+
+  // Extraire le token de l'en-tête
+  const token = authHeader.split(' ')[1];
+  if (!token) {
+    return res.status(401).json({ msg: 'Token format invalid' });
+  }
+
+  try {
+    // Vérifier et décoder le token
+    const decoded = jwt.verify(token, process.env.JWT_KEY);
+
+    // Récupérer l'ID utilisateur du token décodé
+    const userId = decoded.user ? decoded.user._id : decoded._id;
+
+    // Rechercher l'utilisateur dans la base de données
+    const user = await Todo.findOne({ _id: userId });
+
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    // Retourner l'utilisateur
     return res.status(200).json({ msg: 'successTrue', user });
   } catch (error) {
     console.error(error);
