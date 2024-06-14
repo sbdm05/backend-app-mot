@@ -87,8 +87,8 @@ const login = async (req, res) => {
   console.log('test', req.body);
   const { email, pwd } = req.body;
   console.log(email, pwd);
-  // res.setHeader('Access-Control-Allow-Credentials', true);
-  // res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
   // // another common pattern
   // // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
   // res.setHeader(
@@ -295,7 +295,7 @@ const saveNewPassword = async (req, res) => {
 };
 
 // identifier un utilisateur par le token
-const getUser = async (req, res) => {
+const getUser2 = async (req, res) => {
   // récupérer le header avec token
   console.log(req.headers.authorization);
   if (req.headers.authorization) {
@@ -330,6 +330,47 @@ const getUser = async (req, res) => {
   // faire vérif
   // et retourner user
   // res.status(201).json({ msg: "success" });
+};
+
+const getUser = async (req, res) => {
+  // Retrieve the authorization header
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(401).json({ msg: 'No token provided' });
+  }
+
+  const token = authHeader.split(' ')[1];
+  if (!token) {
+    return res.status(401).json({ msg: 'Token format invalid' });
+  }
+
+  try {
+    // Verify the token
+    const decoded = jwt.verify(token, process.env.JWT_KEY);
+    const userId = decoded.user ? decoded.user._id : decoded._id;
+
+    // Fetch the user from the database
+    const user = await Todo.findOne({ _id: userId });
+
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    // Send back the user
+    return res.status(200).json({ msg: 'successTrue', user });
+  } catch (error) {
+    console.error(error);
+    if (error.name === 'TokenExpiredError') {
+      return res.status(401).json({ msg: 'Token expired' });
+    }
+    if (error.name === 'JsonWebTokenError') {
+      if (error.message === 'invalid signature') {
+        return res.status(401).json({ msg: 'Invalid token signature' });
+      }
+      return res.status(401).json({ msg: 'Invalid token' });
+    }
+    return res.status(500).json({ msg: 'Internal server error' });
+  }
 };
 
 // créer un contact dans >letters
