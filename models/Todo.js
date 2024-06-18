@@ -11,22 +11,22 @@ const TodoSchema = new mongoose.Schema({
   prenom: {
     type: String,
     trim: true,
-    maxlength: [20, 'Ne doit pas dépasser 20 caractères'],
+    maxlength: [30, 'Ne doit pas dépasser 20 caractères'],
   },
   nom: {
     type: String,
     trim: true,
-    maxlength: [20, 'Ne doit pas dépasser 20 caractères'],
+    maxlength: [30, 'Ne doit pas dépasser 20 caractères'],
   },
   tel: {
     type: Number,
     trim: true,
-    maxlength: [20, 'Ne doit pas dépasser 20 caractères'],
+    maxlength: [10, 'Ne doit pas dépasser 20 caractères'],
   },
   adresse: {
     type: String,
     trim: true,
-    maxlength: [50, 'Ne doit pas dépasser 50 caractères'],
+    maxlength: [100, 'Ne doit pas dépasser 50 caractères'],
   },
   email: {
     type: String,
@@ -48,7 +48,7 @@ const TodoSchema = new mongoose.Schema({
   },
   pic: {
     type: String,
-    trim: true
+    trim: true,
   },
   letters: {
     // type: ["Mixed"],
