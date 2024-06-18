@@ -11,7 +11,7 @@ const TodoSchema = new mongoose.Schema({
   prenom: {
     type: String,
     trim: true,
-    maxlength: [30, 'Ne doit pas dépasser 20 caractères'],
+    maxlength: [40, 'Ne doit pas dépasser 40 caractères'],
   },
   nom: {
     type: String,
